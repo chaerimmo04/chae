@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>수강신청 TEST</title>
+  <link rel="stylesheet" href="Minepage_Style.css" />
+</head>
+<body>
+
+  <div id="main-container">
+    <img src="image/MainIMG_2.png" alt="">
+    <span class="point_text">수강신청 D-DAY</span>
+    <h1>수강신청의 신, 당신도 될 수 있을까?</h1>
+    <button onclick="startQuiz()">수강신청 START</button>
+  </div>
+
+  <div id="quiz-container">
+    <div id="question-container"></div>
+  </div>
+  <div id="result-container"></div>
+
+  <script>
+    const data = {
+      questions: [
+        {
+          id: 1,
+          questionImage: "image/Question_1.png",
+          answers: [
+            { id: "A", result: 1, image:"image/Answer1-1.png"},
+            { id: "B", result: 2, image:"image/Answer1-3.png"},
+            { id: "C", result: 3, image:"image/Answer1-2.png"},
+            { id: "D", result: 4, image:"image/Answer1-4.png"}
+          ]
+        },
+        {
+          id: 2,
+          questionImage: "image/Question_2.png",
+          answers: [
+            { id: "A", result: 1, image:"image/Answer2-1.png" },
+            { id: "B", result: 2, image:"image/Answer2-2.png" },
+            { id: "C", result: 3, image:"image/Answer2-3.png" },
+            { id: "D", result: 4, image:"image/Answer2-4.png" }
+          ]
+        },
+        {
+          id: 3,
+          questionImage: "image/Question_3.png",
+          answers: [
+            { id: "A", result: 1, image:"image/Answer3-1.png" },
+            { id: "B", result: 2, image:"image/Answer3-2.png" },
+            { id: "C", result: 3, image:"image/Answer3-3.png" },
+            { id: "D", result: 4, image:"image/Answer3-4.png" }
+          ]
+        },
+        {
+          id: 4,
+          questionImage: "image/Question_4.png",
+          answers: [
+            { id: "A", result: 1, image:"image/Answer4-1.png" },
+            { id: "B", result: 2, image:"image/Answer4-2.png" },
+            { id: "C", result: 3, image:"image/Answer4-3.png" },
+            { id: "D", result: 4, image:"image/Answer4-4.png" }
+          ]
+        },
+        {
+          id: 5,
+          questionImage: "image/Question_5.png",
+          answers: [
+            { id: "A", result: 1, image:"image/Answer5-1.png" },
+            { id: "B", result: 2, image:"image/Answer5-2.png" },
+            { id: "C", result: 3, image:"image/Answer5-3.png" },
+            { id: "D", result: 4, image:"image/Answer5-4.png" }
+          ]
+        },
+        {
+          id: 6,
+          questionImage: "image/Question_6.png",
+          answers: [
+            { id: "A", result: 1, image:"image/Answer6-1.png" },
+            { id: "B", result: 2, image:"image/Answer6-2.png" },
+            { id: "C", result: 3, image:"image/Answer6-3.png" },
+            { id: "D", result: 4, image:"image/Answer6-4.png" }
+          ]
+        },
+        {
+          id: 7,
+          questionImage: "image/Question_7.png",
+          answers: [
+            { id: "A", result: 1, image:"image/Answer7-1.png" },
+            { id: "B", result: 2, image:"image/Answer7-2.png" },
+            { id: "C", result: 3, image:"image/Answer7-3.png" },
+            { id: "D", result: 4, image:"image/Answer7-4.png" }
+          ]
+        },
+        {
+          id: 8,
+          questionImage: "image/Question_8.png",
+          answers: [
+            { id: "A", result: 1, image:"image/Answer8-1.png" },
+            { id: "B", result: 2, image:"image/Answer8-2.png" },
+            { id: "C", result: 3, image:"image/Answer8-3.png" },
+            { id: "D", result: 4, image:"image/Answer8-4.png" }
+          ]
+        }
+
+      ],
+      results: [
+        { id: 1, text: "수강신청 완료!", image: "image/Result1.png" },
+        { id: 2, text: "수강신청 완료!", image: "image/Result2.png" },
+        { id: 3, text: "수강신청 완료!", image: "image/Result3.png" },
+        { id: 4, text: "수강신청 완료!", image: "image/Result4.png" }
+      ]
+    };
+
+    const mainContainer = document.getElementById('main-container');
+    const quizContainer = document.getElementById('quiz-container');
+    const questionContainer = document.getElementById('question-container');
+    const resultContainer = document.getElementById('result-container');
+
+    let currentQuestionIndex = 0;
+    let selectedAnswers = [];
+
+    function startQuiz() {
+      mainContainer.style.display = 'none';
+      quizContainer.style.display = 'flex';
+      renderQuestion();
+    }
+
+    function renderQuestion() {
+      questionContainer.innerHTML = '';
+      const question = data.questions[currentQuestionIndex];
+
+      const questionDiv = document.createElement('div');
+      questionDiv.className = 'question';
+      questionDiv.innerHTML = `
+        <img src="${question.questionImage}" alt="Question ${currentQuestionIndex + 1}" />
+      `;
+
+      const answerContainer = document.createElement('div');
+      answerContainer.className = 'answer-container';
+
+      question.answers.forEach(answer => {
+        const answerImage = document.createElement('img');
+        answerImage.src = answer.image; // 이미지 경로 지정
+        answerImage.style.width = "100px"; // 이미지 크기 조정 (필요한 경우)
+        answerImage.style.height = "auto"; // 비율 유지
+
+        answerImage.onclick = () => handleAnswer(answer.result);
+
+        answerContainer.appendChild(answerImage); //답변 이미지 추가
+      });
+
+      questionDiv.appendChild(answerContainer);
+      questionContainer.appendChild(questionDiv);
+    }
+
+    function handleAnswer(resultId) {
+      selectedAnswers[currentQuestionIndex] = resultId;
+      currentQuestionIndex++;
+
+      if (currentQuestionIndex < data.questions.length) {
+        renderQuestion();
+      } else {
+        showResult();
+      }
+    }
+
+    function showResult() {
+      quizContainer.style.display = 'none';
+
+      const resultCounts = selectedAnswers.reduce((counts, resultId) => {
+        counts[resultId] = (counts[resultId] || 0) + 1;
+        return counts;
+      }, {});
+
+      const finalResultId = Object.keys(resultCounts).reduce((a, b) => resultCounts[a] > resultCounts[b] ? a : b);
+
+      const finalResult = data.results.find(result => result.id == finalResultId);
+
+      resultContainer.innerHTML = `
+        <div class="result">
+          <h2>${finalResult.text}</h2>
+          <img src="${finalResult.image}" alt="${finalResult.text}" />
+          <button onclick="restartQuiz()">다시하기</button>
+        </div>
+      `;
+
+      resultContainer.style.display = 'flex';
+    }
+
+    function restartQuiz() {
+      selectedAnswers = [];
+      currentQuestionIndex = 0;
+      resultContainer.style.display = 'none';
+      mainContainer.style.display = 'flex';
+    }
+  </script>
+
+</body>
+</html>
